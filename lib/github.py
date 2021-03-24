@@ -1,4 +1,4 @@
-from requests import post
+from requests import post, get
 from os import getenv
 import urllib.parse
 
@@ -9,6 +9,11 @@ def authenticate(client_id, code):
         "client_secret": getenv("CLIENT_SECRET"),
         "code": code
     }
-    response = post('https://github.com/login/oauth/access_token', params=payload)
-    response_json = urllib.parse.parse_qs(response.text)
-    return response_json
+    oauth_response = post(
+        'https://github.com/login/oauth/access_token', params=payload)
+    oauth_json = urllib.parse.parse_qs(oauth_response.text)
+
+    user_response = get('https://api.github.com/user',
+                        headers={'Authorization': 'token ' + oauth_json['access_token'][0]})
+    print(user_response.json())
+    return oauth_json
