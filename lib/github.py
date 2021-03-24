@@ -1,5 +1,6 @@
 from requests import post, get
 from os import getenv
+from jwcrypto import jwt, jwk
 import urllib.parse
 
 
@@ -15,5 +16,12 @@ def authenticate(client_id, code):
 
     user_response = get('https://api.github.com/user',
                         headers={'Authorization': 'token ' + oauth_json['access_token'][0]})
-    print(user_response.json())
+    user = user_response.json()
+
+    key = jwk.JWK(generate='oct', size=256)
+    token = jwt.JWT(header={'alg': 'HS256'}, claims={
+                    'user_id': user['id'], 'username': user['login'], 'email': user['email']})
+    token.make_signed_token(key)
+    print(token.serialize())
+
     return oauth_json
