@@ -32,7 +32,7 @@ def authenticate(client_id, code):
                         'aud': getenv('ISSUER'),
                         'nbf': now,
                         'iat': now,
-                        'exp': now + getenv('TOKEN_EXPIRATION_TIME')})
+                        'exp': now + int(getenv('TOKEN_EXPIRATION_TIME'))})
     token.make_signed_token(key)
     print(token.serialize())
 
