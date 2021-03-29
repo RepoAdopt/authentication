@@ -4,11 +4,21 @@ from jwcrypto import jwt, jwk
 import urllib.parse
 import time
 
+token_expiration_time = int(getenv('TOKEN_EXPIRATION_TIME'))
+client_secret = getenv("CLIENT_SECRET")
+
+key_file = open('private_key.pem', 'rb')
+priv_key = key_file.read()
+key_file.close()
+
+key = jwk.JWK()
+key.import_from_pem(priv_key, password=None)
+
 
 def authenticate(client_id, code):
     payload = {
         "client_id": client_id,
-        "client_secret": getenv("CLIENT_SECRET"),
+        "client_secret": client_secret,
         "code": code
     }
     oauth_response = post(
@@ -20,8 +30,7 @@ def authenticate(client_id, code):
     user = user_response.json()
 
     now = int(time.time())
-    key = jwk.JWK(generate='oct', size=256)
-    token = jwt.JWT(header={'alg': 'HS256'},
+    token = jwt.JWT(header={'alg': 'RS512'},
                     claims={
                         'user_id': user['id'],
                         'username': user['login'],
@@ -32,7 +41,7 @@ def authenticate(client_id, code):
                         'aud': getenv('ISSUER'),
                         'nbf': now,
                         'iat': now,
-                        'exp': now + int(getenv('TOKEN_EXPIRATION_TIME'))})
+                        'exp': now + token_expiration_time})
     token.make_signed_token(key)
     print(token.serialize())
 
