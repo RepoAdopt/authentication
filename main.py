@@ -3,9 +3,9 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from os import getenv
 
-from lib.github import authenticate
-
 load_dotenv()
+
+from lib.github import authenticate
 
 
 app = Flask(__name__)
