@@ -1,6 +1,7 @@
 from requests import post, get
 from os import getenv
-from jwcrypto import jwt, jwk
+from jwcrypto.jwk import JWK
+from jwcrypto.jwt import JWT
 import urllib.parse
 import time
 
@@ -12,7 +13,7 @@ key_file = open('private_key.pem', 'rb')
 priv_key = key_file.read()
 key_file.close()
 
-key = jwk.JWK()
+key = JWK()
 key.import_from_pem(priv_key, password=None)
 
 
@@ -32,7 +33,7 @@ def authenticate(client_id, code):
     user = user_response.json()
 
     now = int(time.time())
-    token = jwt.JWT(header={'typ': 'JWT', 'alg': 'RS512'},
+    token = JWT(header={'typ': 'JWT', 'alg': 'RS512'},
                     claims={
                         'user_id': user['id'],
                         'username': user['login'],

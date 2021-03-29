@@ -1,12 +1,12 @@
 import os
 
-from jwcrypto import jwk
+from jwcrypto.jwk import JWK
 
 
 pub_file = 'public_key.pem'
 priv_file = 'private_key.pem'
 
-key = jwk.JWK(generate='RSA', size=2048)
+key = JWK(generate='RSA', size=2048)
 
 pub_key = key.export_to_pem(private_key=False, password=None)
 priv_key = key.export_to_pem(private_key=True, password=None)
