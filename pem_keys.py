@@ -16,8 +16,6 @@ def overwrite_file(file_name, content):
     if os.path.exists(file_name):
         os.remove(file_name)
 
-    print(content)
-
     file = open(file_name, 'wb')
     file.write(content)
     file.close()
