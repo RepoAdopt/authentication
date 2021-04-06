@@ -12,12 +12,12 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/signin", methods=['POST'])
+@app.route("/signin", methods=["POST"])
 def signin():
-    client_id = request.args.get('client_id')
-    code = request.args.get('code')
+    client_id = request.args.get("client_id")
+    code = request.args.get("code")
     return authenticate(client_id, code)
 
 
-if __name__ == '__main__':
-    app.run(debug=getenv("DEVELOPMENT"), host='0.0.0.0', port=getenv("PORT"))
+if __name__ == "__main__":
+    app.run(debug=getenv("DEVELOPMENT"), host="0.0.0.0", port=getenv("PORT"))
