@@ -22,7 +22,7 @@ def establish_gateway_connection(attempts=0):
     try:
         res = post(
             url=base_url,
-            data={"name": name, "url": getenv("GRAPHQL_URL")},
+            data={"name": name, "url": getenv("AUTHENTICATION_URL")},
         )
 
         if res.status_code == 201:
