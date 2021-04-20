@@ -39,6 +39,8 @@ def establish_gateway_connection(attempts=0):
             
             return
         else:
+            print(res.status_code)
+            print(res.content)
             print("Could not create gateway connection!")
 
     except:
