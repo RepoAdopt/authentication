@@ -49,7 +49,7 @@ def establish_gateway_connection(attempts=0):
             # Create the route
             create_route_res = post(
                 url=f"{service_url}/routes",
-                data={"name": "signin", "paths[]": "/signin"},
+                data={"name": "signin", "paths[]": "/signin", "strip_path": "false"},
             )
             if create_route_res.status_code == 201:
                 print("Kong: Route added")
