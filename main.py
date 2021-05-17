@@ -6,6 +6,7 @@ from os import getenv
 load_dotenv()
 
 from lib.github import authenticate
+from lib.gateway import establish_gateway_connection
 
 
 app = Flask(__name__)
@@ -20,4 +21,5 @@ def signin():
 
 
 if __name__ == "__main__":
+    establish_gateway_connection()
     app.run(debug=getenv("DEVELOPMENT"), host="0.0.0.0", port=getenv("PORT"))
