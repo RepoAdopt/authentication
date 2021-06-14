@@ -1,0 +1,6 @@
+.idea/
+lib/__pycache__/
+.env
+
+private_key.pem
+public_key.pem
